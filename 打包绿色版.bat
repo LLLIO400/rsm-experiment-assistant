@@ -14,9 +14,13 @@ if errorlevel 1 (
     exit /b 1
 )
 echo.
-echo  [3/4] 复制随行文件（技能/AI配置/示例启动）...
+echo  [3/4] 复制随行文件（技能/示例启动）...
 xcopy /y /i skills "dist\RSM实验助手\skills\" >nul
-if exist config.json copy /y config.json "dist\RSM实验助手\" >nul
+
+REM 安全清理：不携带本机隐私（AI 配置 / 实验数据 / 输出图），软件首次运行自动重建
+if exist "dist\RSM实验助手\config.json" del /q "dist\RSM实验助手\config.json"
+if exist "dist\RSM实验助手\data" rmdir /s /q "dist\RSM实验助手\data"
+if exist "dist\RSM实验助手\output" rmdir /s /q "dist\RSM实验助手\output"
 mkdir "dist\RSM实验助手\data" 2>nul
 mkdir "dist\RSM实验助手\output" 2>nul
 (
